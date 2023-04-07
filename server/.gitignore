@@ -1,0 +1,9 @@
+# /**
+#  * Created by IntelliJ IDEA
+#  * User : Dinusha Ariyarathna
+#  * Date : 07/04/2022
+#  * Time : 9:46 PM
+#  */
+
+node_modules/*
+.env
