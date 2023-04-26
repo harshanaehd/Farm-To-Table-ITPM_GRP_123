@@ -8,14 +8,14 @@ const saultRounds = 10;// number of salt rounds for bcrypt hashing
 export const register = async (req, res) => {
     const { username, email, userType, password } = req.body;
 
-    bcrypt.hash(password, saultRounds, (err, hash) => {
+    bcrypt.hash(password, saultRounds, async (err, hash) => {
         const newUser = new User({
             username,
             email,
             password: hash,
             userType,
         });
-        User.findOne({ email }).then((user) => {
+        await User.findOne({ email }).then((user) => {
             user ? res.send({ Error: "Email already in use" }) : newUser.save().then((user) => res.send({ message: "Registration Success" })).catch((err) => res.send({ Error: err }));
         }).catch((error) => res.send(error.message));
     });
