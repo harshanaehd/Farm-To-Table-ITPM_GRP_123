@@ -40,9 +40,9 @@ export const login = async (req, res) => {
 };
 
 export const getAllCustomers = async (req, res) => {
-    const search = req.headers["data"];
-    const query = search === "" ? {} : { email: { $regex: search } };
-    User.find(query).then((data) => res.status(200).send(data)).catch((error) => res.status(500).send(error.message));
+    // const search = req.headers["data"];
+    // const query = search === "" ? {} : { email: { $regex: search } };
+    User.find().then((data) => res.status(200).send(data)).catch((error) => res.status(500).send(error.message));
 };
 
 export const verifyToken = async (req, res, next) => {

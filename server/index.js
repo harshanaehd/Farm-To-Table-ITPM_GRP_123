@@ -13,7 +13,8 @@ import dotenv from 'dotenv';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import user from './api/userApi.js';
-// const userApi = require( './api/user-api.js');
+import product from './api/productApi.js';
+
 dotenv.config();
 const app = express();
 app.use(express.json())
@@ -35,15 +36,7 @@ mongoose.connect(process.env.MONGO_URL, {
 
 
 app.use('/user', user())
-
-
-
-
-
-
-
-
-
+app.use('/product', product())
 
 
 app.listen(PORT, () => console.log(`Server is up and running on port ${PORT}`));
