@@ -1,11 +1,22 @@
-
 import React, { useState } from 'react';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import { registerUser } from '../apis/user.api';
+import { useNavigate } from 'react-router-dom';
+const SignUp = () => {
 
-function SignUp() {
     const [username, setUsername] = useState('');
     const [usertype, setUsertype] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+    const handleUsernameChange = (event) => {
+        setUsername(event.target.value);
+    };
+
+    const handleUsertypeChange = (event) => {
+        setUsertype(event.target.value);
+    };
 
     const handleEmailChange = (event) => {
         setEmail(event.target.value);
@@ -15,60 +26,64 @@ function SignUp() {
         setPassword(event.target.value);
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log(`Email: ${email} Password: ${password}`);
-        // code to authenticate user and redirect to dashboard
+    const handleSubmit = async (event) => {
+        try {
+            event.preventDefault();
+            let newUser = {
+                "email": email,
+                "password": password,
+                "username": username,
+                "userType": usertype
+            }
+
+            const res = await registerUser(newUser)
+            console.log(res);
+            alert(res.data.message)
+            navigate("/", { data: res.data.data });
+        } catch (error) {
+
+        }
+
+
     };
 
-    return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                {/* username, email, userType, password */}
-                <div>
-                    <label htmlFor="username">UserName:</label>
-                    <input
-                        type="username"
-                        id="username"
-                        value={username}
-                        onChange={handleEmailChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={handleEmailChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="usertype">UserType:</label>
-                    <input
-                        type="usertype"
-                        id="usertype"
-                        value={usertype}
-                        onChange={handleEmailChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={handlePasswordChange}
-                        required
-                    />
-                </div>
-                <button type="submit">Register</button>
-            </form>
-        </div>
 
+
+    return (
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+            <TextField
+                label="Username"
+                variant="outlined"
+                value={username}
+                onChange={handleUsernameChange}
+                required
+            />
+            <TextField
+                label="UserType"
+                variant="outlined"
+                value={usertype}
+                onChange={handleUsertypeChange}
+                required
+            />
+            <TextField
+                label="Email"
+                variant="outlined"
+                value={email}
+                onChange={handleEmailChange}
+                required
+            />
+            <TextField
+                label="Password"
+                variant="outlined"
+                type="password"
+                value={password}
+                onChange={handlePasswordChange}
+                required
+            />
+            <Button variant="contained" color="primary" type="submit">
+                Register
+            </Button>
+        </form>
     );
 };
 

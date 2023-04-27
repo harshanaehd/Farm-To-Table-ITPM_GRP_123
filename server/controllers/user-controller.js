@@ -16,7 +16,7 @@ export const register = async (req, res) => {
             userType,
         });
         await User.findOne({ email }).then((user) => {
-            user ? res.send({ Error: "Email already in use" }) : newUser.save().then((user) => res.send({ message: "Registration Success" })).catch((err) => res.send({ Error: err }));
+            user ? res.send({ message: "Email already in use" }) : newUser.save().then((user) => res.send({ message: "Registration Success" })).catch((err) => res.send({ Error: err }));
         }).catch((error) => res.send(error.message));
     });
 };
